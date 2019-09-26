@@ -50,7 +50,7 @@ public class Controller {
     
     @GET
     @Path("/details")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_JSON)
     public List<Transport> getTransportDetails() {
     	AccessData accessData = new AccessData();
     	List<Transport> transportDetails = accessData.getTrasnportDetails();

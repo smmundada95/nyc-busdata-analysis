@@ -1,8 +1,5 @@
 package com.adbms.dto;
 
-import java.sql.Time;
-import java.util.Date;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
