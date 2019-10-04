@@ -2,6 +2,8 @@ package com.adbms.dto;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+
+//DTO for accessing data from the database
 @XmlRootElement
 public class Transport {
 

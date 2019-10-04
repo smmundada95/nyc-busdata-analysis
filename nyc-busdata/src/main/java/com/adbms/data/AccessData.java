@@ -9,118 +9,42 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.adbms.dto.Student;
 import com.adbms.dto.Transport;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class AccessData {
-		
+	
+	//This function is used to create connection with the MySQL server hosted on AWS
+	//It returns a datasource object
 	public static DataSource getMysqlDataSource() throws SQLException {
 		MysqlDataSource dataSource = new MysqlDataSource();
 		
-		dataSource.setServerName("127.0.0.1");
-		//dataSource.setServerName("172.12.106.242");
+		dataSource.setServerName("ec2-18-188-195-37.us-east-2.compute.amazonaws.com");
 		dataSource.setPortNumber(3306);
-		dataSource.setDatabaseName("transport");
+		dataSource.setDatabaseName("new_york");
 		dataSource.setUser("root");
-		dataSource.setPassword("");
-		dataSource.setServerTimezone("UTC");
+		dataSource.setPassword("password1");
 		return dataSource;
 	}
 	
-	public List<Student> getAllStudents(){
-		
+	//The code fetches data from the database corresponding to the day, start time and end time recieved 
+	//It returns a list of Tranport DTO
+	public List<Transport> getTrasnportDetailsForDay(String day, String startTime, String endTime){
 		try {
+			
+			//Establish connection
 			Connection con = getMysqlDataSource().getConnection();
 			
 			Statement stmt = con.createStatement();
 			
-			ResultSet resultSet = stmt.executeQuery("select * from students");
+			//Get dates corresponding to the day received as parameter 
+			String allDates = DayToDate.getDateFromDay(day);
 			
-			List<Student> students = new ArrayList<Student>();
+			//Execute the query and get the output in a result set
+			ResultSet resultSet = stmt.executeQuery("select * from new_york_city_bus where RecordedTime between '" + startTime + 
+					"' and '" + endTime + "' and RecordedDate in (" + allDates + ")");
 			
-			while (resultSet.next()) {
-				Student student = new Student();
-				student.setUin(resultSet.getString("uin"));
-				student.setName(resultSet.getString("name"));
-
-				students.add(student);
-			}
-			
-			return students;
-			
-		} catch(Exception exe) {
-			exe.printStackTrace();
-		}
-		
-		List<Student> students = new ArrayList<Student>();
-				
-		return students;
-		
-	}
-	
-	
-	public static String returnData() {
-		try {
-			Connection con = getMysqlDataSource().getConnection();
-			
-			Statement stmt = con.createStatement();
-			
-			ResultSet resultSet = stmt.executeQuery("select * from students");
-			
-			String data = "";
-			while (resultSet.next()) {
-				data = data + "" + resultSet.getString("uin") + ", " + resultSet.getString("name");
-			}
-			
-			return data;
-			
-		} catch(Exception exe) {
-			exe.printStackTrace();
-		}
-		
-		return "Howdy!";
-	}
-
-	public List<Student> getStudentDetails(String uin) {
-			
-		try {
-			Connection con = getMysqlDataSource().getConnection();
-			
-			Statement stmt = con.createStatement();
-			
-			ResultSet resultSet = stmt.executeQuery("select * from students where uin = '" + uin + "'");
-			
-			List<Student> students = new ArrayList<Student>();
-			
-			while (resultSet.next()) {
-				Student student = new Student();
-				student.setUin(resultSet.getString("uin"));
-				student.setName(resultSet.getString("name"));
-
-				students.add(student);
-			}
-			
-			return students;
-			
-		} catch(Exception exe) {
-			exe.printStackTrace();
-		}
-		
-		List<Student> students = new ArrayList<Student>();
-				
-		return students;
-		
-	}
-	
-	public List<Transport> getTrasnportDetails(){
-		try {
-			Connection con = getMysqlDataSource().getConnection();
-			
-			Statement stmt = con.createStatement();
-			
-			ResultSet resultSet = stmt.executeQuery("select * from new_york_city_bus");
-			
+			//Create a list of Transport DTO
 			List<Transport> transportDetails = new ArrayList<Transport>();
 			
 			while (resultSet.next()) {
@@ -128,7 +52,7 @@ public class AccessData {
 				transport.setOriginName(resultSet.getString("OriginName"));
 				transport.setDestinationName(resultSet.getString("DestinationName"));
 				transport.setNextStopPointName(resultSet.getString("NextStopPointName"));
-				transport.setExpectedArrivalTime(resultSet.getString("ExpectedArrivalTime"));
+				transport.setExpectedArrivalTime(resultSet.getString("ExpectedArrTime"));
 				transport.setScheduledArrivalTime(resultSet.getString("ScheduledArrivalTime"));
 				
 				transportDetails.add(transport);
@@ -143,5 +67,6 @@ public class AccessData {
 		List<Transport> transportDetails = new ArrayList<Transport>();
 		return transportDetails;
 	}
+
 		
 }

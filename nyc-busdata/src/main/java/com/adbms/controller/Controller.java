@@ -9,51 +9,28 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.adbms.data.AccessData;
-import com.adbms.dto.Student;
 import com.adbms.dto.Transport;
 
 /**
- * Root resource (exposed at "myresource" path)
+ * Root resource (exposed at "transport" path)
  */
 @Path("transport")
 public class Controller {
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "text/plain" media type.
+     * to the client as "APPLICATION_JSON" media type.
      *
      * @return String that will be returned as a text/plain response.
      */
-//    @GET
-//    @Produces(MediaType.TEXT_PLAIN)
-//    public String getTrafficDetails() {
-//    	String response = AccessData.returnData();
-//        return response;
-//    }
     
     @GET
-    @Produces(MediaType.APPLICATION_XML)
-    public List<Student> getAllStudentDetails() {
-    	AccessData accessData = new AccessData();
-    	List<Student> students = accessData.getAllStudents();
-    	return students;
-    }
-    
-    @GET
-    @Path("/students/{uin}")
-    @Produces(MediaType.APPLICATION_XML)
-    public List<Student> getStudentDetails(@PathParam("uin") String uin) {
-    	AccessData accessData = new AccessData();
-    	List<Student> students = accessData.getStudentDetails(uin);
-    	return students;
-    }
-    
-    @GET
-    @Path("/details")
+    @Path("/details/{day}/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Transport> getTransportDetails() {
+    public List<Transport> getTransportDetailsForDay(@PathParam("day") String day, 
+    		@PathParam("startTime") String startTime, @PathParam("endTime") String endTime) {
     	AccessData accessData = new AccessData();
-    	List<Transport> transportDetails = accessData.getTrasnportDetails();
+    	List<Transport> transportDetails = accessData.getTrasnportDetailsForDay(day, startTime, endTime);
     	return transportDetails;
     }
     
