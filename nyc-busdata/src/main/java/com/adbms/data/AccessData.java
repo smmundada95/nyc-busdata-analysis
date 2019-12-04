@@ -19,7 +19,7 @@ public class AccessData {
 	public static DataSource getMysqlDataSource() throws SQLException {
 		MysqlDataSource dataSource = new MysqlDataSource();
 		
-		dataSource.setServerName("ec2-18-188-195-37.us-east-2.compute.amazonaws.com");
+		dataSource.setServerName("ec2-18-189-28-122.us-east-2.compute.amazonaws.com");
 		dataSource.setPortNumber(3306);
 		dataSource.setDatabaseName("new_york");
 		dataSource.setUser("root");

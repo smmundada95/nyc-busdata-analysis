@@ -50,6 +50,14 @@
             <artifactId>jersey-media-moxy</artifactId>
         </dependency>
         
+        <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
+		<dependency>
+		    <groupId>org.mongodb</groupId>
+		    <artifactId>mongo-java-driver</artifactId>
+		    <version>3.11.2</version>
+		</dependency>
+        
+        
     </dependencies>
     <properties>
         <jersey.version>2.2</jersey.version>
